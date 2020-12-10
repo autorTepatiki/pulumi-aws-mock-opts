@@ -1,0 +1,4 @@
+include:
+  - project: 'Naranja-Digital/Wiru/templates'
+    ref: wiru4.0
+    file: 'evoluciondigital/pipeline_templates/.gitlab-ci-pulumi-library.yml'

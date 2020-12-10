@@ -1,0 +1,96 @@
+{
+    "name": "@harambee/naranja-aws-mock-opts",
+    "description": "Mock Options for Pulumi",
+    "version": "0.0.5",
+    "main": "bin/index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "echo dev",
+        "plan": "env-cmd pulumi up",
+        "destroy": "env-cmd pulumi destroy",
+        "stack-test": "pulumi stack init test && pulumi config set bucketPrefix test && pulumi config set name test",
+        "plan-test": "env-cmd pulumi up -y -c test/index.ts ",
+        "destroy-test": "env-cmd pulumi destroy -y && pulumi stack rm test -y",
+        "test-plan": "npm run stack-test && npm run plan-test && npm run destroy-test",
+        "test": "cross-env AWS_DEFAULT_REGION=\"us-east-1\" mocha -r ts-node/register --require ./scripts/mocha-bootload.ts --recursive test/*.ts",
+        "functional-test-standalone": "echo ok",
+        "functional-tests": "echo ok",
+        "coverage": "cross-env AWS_DEFAULT_REGION=\"us-east-1\" nyc mocha -r ts-node/register test/index.test.ts",
+        "coverage-summary": "cross-env AWS_DEFAULT_REGION=\"us-east-1\" nyc --reporter=text-summary --branches 50 --statements 50 --functions 70 --lines 50 mocha -r ts-node/register test/index.test.ts",
+        "lint": "eslint . --ext .ts",
+        "lint-fix": "eslint  --fix . --ext .ts",
+        "security-check-report": "retire --outputpath retire-report.txt --ignore node_modules,reports",
+        "security-check": "retire --ignore node_modules,reports",
+        "ci_lint": "yaml-validator .gitlab-ci.yml",
+        "dependency-check": "depcheck . --ignore-path=.eslintignore --ignores='@pulumi/*,typescript,ts-node,ghooks,pre-commit,lodash'",
+        "complexity-test": "es6-plato -d reports -e .eslintrc src/index.ts src/component.ts",
+        "dependency-check-full": "dependency-check ./package.json && dependency-check ./package.json --unused --no-dev",
+        "pre-commit": "npm run lint && npm test && npm run ci_lint && npm run dependency-check && npm run security-check"
+    },
+    "dependencies": {
+        "@pulumi/awsx": "^0.22.0",
+        "@pulumi/cloud-aws": "^0.21.0",
+        "@pulumi/eks": "^0.20.0",
+        "@pulumi/pulumi": "^2.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/martindcernadas/pulumi-aws-mock-opts"
+    },
+    "keywords": [
+        "aws",
+        "pulumi",
+        "mocks"
+    ],
+    "author": "public",
+    "license": "ISC",
+    "engines": {
+        "node": "^12.14"
+    },
+    "devDependencies": {
+        "@istanbuljs/nyc-config-typescript": "^1.0.1",
+        "@pulumi/aws": "^3.14.0",
+        "@types/chai": "^4.2.12",
+        "@types/mocha": "^8.0.3",
+        "@types/sinon-chai": "^3.2.5",
+        "@typescript-eslint/parser": "^4.3.0",
+        "aws-sdk": "^2.799.0",
+        "chai": "^4.2.0",
+        "cross-env": "^7.0.2",
+        "depcheck": "^1.2.0",
+        "env-cmd": "^10.1.0",
+        "es6-plato": "^1.2.3",
+        "eslint": "^6.8.0",
+        "eslint-config-google": "^0.14.0",
+        "flatted": "^3.0.5",
+        "ghooks": "^2.0.4",
+        "mocha": "^8.1.3",
+        "nyc": "^15.1.0",
+        "pre-commit": "^1.2.2",
+        "retire": "^2.2.2",
+        "sinon": "^9.0.3",
+        "sinon-chai": "^3.5.0",
+        "ts-node": "^9.0.0",
+        "typescript": "^4.0.3",
+        "yaml-validator": "^3.0.0"
+    },
+    "config": {
+        "owner": "public",
+        "context": "common",
+        "ghooks": {
+            "pre-commit": "npm run pre-commit"
+        }
+    },
+    "pulumi": {
+        "resource": true
+    },
+    "nyc": {
+        "branches": "&gt;50",
+        "lines": "&gt;50",
+        "functions": "&gt;70",
+        "statements": "&gt;50"
+    }
+}

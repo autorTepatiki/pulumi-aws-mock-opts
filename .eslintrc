@@ -1,0 +1,25 @@
+{
+    "extends": [
+        "eslint:recommended", 
+        "google"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2016
+    },
+    "rules": {
+        "require-jsdoc": 0,
+        "newIsCap": 0,
+        "indent": ["error", 4],
+        "max-len": ["error", { "ignoreStrings": true }]
+    },
+    "env": {
+        "node": true,
+        "mocha": true,
+        "es6": true
+    },
+    "globals": {
+        "expect": true,
+        "assert": true
+    }
+}
